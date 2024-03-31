@@ -13,7 +13,8 @@
 - Enable Github pages
 
 # Resources
-- [Payment App](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841)
+- [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
