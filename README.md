@@ -3,7 +3,8 @@
 # Tasks
 - Assign I/Os
 - Discord queries:
-  - wokid ?
+  - ena pin is an option for user to use, not mandotary. [See doscord link](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
+  - wokid ? (Don't need it, just follow the tt-06 template)
   - Ask how low an input clock (discord)
   - Where to buy a tile
   - Shipping to India fine ? (yes, should not be a problem
