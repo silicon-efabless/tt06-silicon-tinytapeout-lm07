@@ -14,6 +14,7 @@
 
 # Resources
 - [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
+- [Discord link clarifying I/O](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
 
 # Tiny Tapeout Verilog Project Template
 
