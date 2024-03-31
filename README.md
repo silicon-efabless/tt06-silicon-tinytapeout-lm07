@@ -3,15 +3,15 @@
 # Tasks
 - Assign I/Os
 - Discord queries:
-  - How to use enable pin (discord)
-  - Bidir pin setup ?
+  - wokid ?
   - Ask how low an input clock (discord)
   - Where to buy a tile
-  - Shipping to India fine ?
-  - How to develop locally
-  - Is the board and ASIC tested before shipping  
+  - Shipping to India fine ? (yes, should not be a problem
+  - How to develop locally (harden)
+  - Is the board and ASIC tested before shipping  (Yes, for functionality)
 - Edit info.yaml
 - Enable Github pages
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
