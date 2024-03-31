@@ -14,8 +14,8 @@ This circuit reads the LM07 data in a binary format, converts into BCD and then 
 
 ## How to test
 
-Explain how to use your project
+A LM07 is connected to the PMOD to interface it for SPI read (CS, CLK, MISO). A detail test plan is coming.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Needs a LM07 interfaced on the PCB. Detail hardware plan coming soon.
