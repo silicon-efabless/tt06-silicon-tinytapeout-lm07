@@ -5,7 +5,7 @@
 - Discord queries:
   - ena pin is an option for user to use, not mandotary. [See doscord link](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
   - wokid ? (Don't need it, just follow the tt-06 template)
-  - Ask how low an input clock (discord)
+  - Ask how low an input clock (6Hz - 66MHz) [See clock specs here](https://tinytapeout.com/specs/clock/)
   - Where to buy a tile
   - Shipping to India fine ? (yes, should not be a problem
   - How to develop locally (harden)
