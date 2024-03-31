@@ -1,11 +1,11 @@
 # Tiny Tapeout project information
 project:
   title:        "Display controller for temperature sensor LM07"      # Project title
-  author:       "Saroj Rout"      # Your name
+  author:       "Priyansu Sahoo"      # Your name
   discord:      "sroutk"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "Reads temperature using SPI and displays on a 7-segment display"      # One line description of what your project does
+  description:  "Reads from LM07 temperature sensor using SPI and displays on a 7-segment display"      # One line description of what your project does
   language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     1000000       # Clock frequency in Hz (or 0 if not applicable)
+  clock_hz:     10000       # 10kHz
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
@@ -20,8 +20,8 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: ""
-  ui[1]: ""
+  ui[0]: "DIP Switch-1: 0: use the demo board 7-segment, 1: use two external 7-seg displays"
+  ui[1]: "DIP Switch-2: Used when u[0]=0.  0 -> LSB temp, 1 > MSB temp"
   ui[2]: ""
   ui[3]: ""
   ui[4]: ""
@@ -29,20 +29,20 @@ pinout:
   ui[6]: ""
   ui[7]: ""
 
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  # Outputs 7-segmment display
+  uo[0]: "A"
+  uo[1]: "B"
+  uo[2]: "C"
+  uo[3]: "D"
+  uo[4]: "E"
+  uo[5]: "F"
+  uo[6]: "G"
+  uo[7]: "LSB/MSB select when ui[0]=0"
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
+  uio[0]: "CS (output)"
+  uio[1]: "SCK (output)"
+  uio[2]: "SDI or MISO (input)"
   uio[3]: ""
   uio[4]: ""
   uio[5]: ""
