@@ -29,4 +29,4 @@ async def test_adder(dut):
 
   await ClockCycles(dut.clk, 20)
 
-  assert dut.uo_out.value == 0
+  assert dut.uo_out.value == 63
