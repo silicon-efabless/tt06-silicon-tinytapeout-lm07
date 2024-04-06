@@ -25,7 +25,7 @@ async def test_adder(dut):
   # Set the input values, wait one clock cycle, and check the output
   dut._log.info("Test")
   dut.ui_in.value = 3
-  dut.uio_in.value = 10
+  dut.uio_in.value = 0
 
   await ClockCycles(dut.clk, 20)
 
