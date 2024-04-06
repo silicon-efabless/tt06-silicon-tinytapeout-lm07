@@ -42,9 +42,9 @@ pinout:
   # Bidirectional pins
   uio[0]: "CS (output)"
   uio[1]: "SCK (output)"
-  uio[2]: "SDI or MISO (input)"
-  uio[3]: ""
-  uio[4]: ""
+  uio[2]: "Select_MSB (output)"
+  uio[3]: "Select_LSB (output)"
+  uio[4]: "SIO (input)"
   uio[5]: ""
   uio[6]: ""
   uio[7]: ""
