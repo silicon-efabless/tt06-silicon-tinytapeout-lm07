@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 // Code your design here
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //DEFINES
 `define RST_COUNT       5'd0
 `define CS_LOW_COUNT    5'd4
