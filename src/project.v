@@ -37,11 +37,10 @@ module tt_um_silicon_tinytapeout_lm07 (
 //-------------------------------------------------------------------------------------
 
 //--------------Declaration of intenal signal to ports--------------
-//Internal signal-to-port assignment
-
-
+    //Internal signal-to-port assignment
     assign sel_ext_seg = ui_in[0];    //DIP switch-1: 0-> demo brd 1 7-seg, 1-> ext 2 7-seg
-    assign sel_ob_LSB  = ui_in[1];        //DIP switch-2
+    assign sel_ob_LSB  = ui_in[1];        //DIP switch-2: if ui_in[0]=0: 1-> LSB, 0-> MSB
+    assign sel_CorF = ui_in[2];		//DIP switch-3: 0-> Centigrade: 1-> Farahneight
     // 7-segment display output
     assign uo_out[0] = dataSeg[0];        //7-seg A
     assign uo_out[1] = dataSeg[1];        //7-seg B
@@ -62,18 +61,19 @@ module tt_um_silicon_tinytapeout_lm07 (
   wire CS;
   reg SCK;
   reg [7:0] dataSeg;
+  wire sel_CorF;
   
 
   reg [7:0] shift_reg;
-  reg [7:0] tempc_bin_latch;
+  reg [7:0] tempC_bin_latch;
+  wire [7:0] tempF;
+  wire [7:0] tempCorF;
   reg [1:0] spi_state;
   reg [4:0] count;
   wire sysclk_gated;
-  //wire [7:0] tempc_bin_latch;
   wire [3:0] bcd_msb;
   wire [3:0] bcd_lsb;
   wire [3:0] bcd_out;
-  //reg  [3:0] bcd_data;
   reg ext_lsb_ctrl;         //for controlling the the 7 segment displays outside the board
   wire [1:0] sel_ext;       //sel_ext[1]-MSB/sel_ext[0]-LSB
   wire sel_ext_seg;              
@@ -89,16 +89,16 @@ module tt_um_silicon_tinytapeout_lm07 (
   // BCD ot 7-segment converter
   always @(*) begin//represents combinational logic
     case (bcd_out)
-        4'b0000: dataSeg = 8'b00111111;	//0
-        4'b0001: dataSeg = 8'b00000110; //1
-        4'b0010: dataSeg = 8'b01011011;	//2	
-        4'b0011: dataSeg = 8'b01001111;	//3
-        4'b0100: dataSeg = 8'b01100110;	//4
-        4'b0101: dataSeg = 8'b01101101;	//5
-        4'b0110: dataSeg = 8'b01111101;	//6
-        4'b0111: dataSeg = 8'b00000111;	//7
-        4'b1000: dataSeg = 8'b01111111;	//8
-        4'b1001: dataSeg = 8'b01101111;	//9
+        4'b0000: dataSeg = 8'b00111111;	//0 0x3F
+        4'b0001: dataSeg = 8'b00000110; //1 0x06
+        4'b0010: dataSeg = 8'b01011011;	//2 0x5B	
+        4'b0011: dataSeg = 8'b01001111;	//3 0x4F
+        4'b0100: dataSeg = 8'b01100110;	//4 0x66
+        4'b0101: dataSeg = 8'b01101101;	//5 0x6D
+        4'b0110: dataSeg = 8'b01111101;	//6 0x7D
+        4'b0111: dataSeg = 8'b00000111;	//7 0x07
+        4'b1000: dataSeg = 8'b01111111;	//8 0x7F
+        4'b1001: dataSeg = 8'b01101111;	//9 0x6E
         4'b1010: dataSeg = 8'b01101111;	//9
         4'b1011: dataSeg = 8'b01101111;	//9
         4'b1100: dataSeg = 8'b01101111;	//9
@@ -109,11 +109,18 @@ module tt_um_silicon_tinytapeout_lm07 (
     endcase
 end
 
+  // Course C-to-F conversion
+  // temp(F) = 2*C + 32  (Accurate: 9*C/5 +32)
+  // Error % is 0.62% at 0C and 9.43% at 100C
+  assign tempF = (tempC_bin_latch<<1) + 6'h20;
+  //MUX: Select C or F
+  assign tempCorF = sel_CorF ? tempF : tempC_bin_latch;
+
   //BCD Logic
   //Temp/10 approx. 1/16 + 1/32
-  assign bcd_msb = (tempc_bin_latch + (tempc_bin_latch>>1))>>4;
+  assign bcd_msb = (tempCorF + (tempCorF>>1))>>4;
   //LSB = temp - 10*MSB = temp - (8*MSB + 2*MSB)
-  assign bcd_lsb = tempc_bin_latch - ((bcd_msb<<3) + (bcd_msb<<1));  
+  assign bcd_lsb = tempCorF - ((bcd_msb<<3) + (bcd_msb<<1));  
  
   //shift register for the input (SIO)
   always @(posedge SCK or negedge rst_n)
@@ -139,17 +146,17 @@ end
 assign CS = ~(spi_state == `SPI_READ);
 
 
-//7-Segment select lines
+//7-Segment select lines: sel_ext[0]-> LSB , sel_ext[1]-> MSB
  assign sel_ext[1] = ~ext_lsb_ctrl & sel_ext_seg;
  assign sel_ext[0] =  ext_lsb_ctrl & sel_ext_seg;
 // 1 for MSB 0 for LSB always --> our covention
 
-// 2-spi_state (IDE, READ) spi_state-machine
+// 3-spi_state (IDLE, READ, LATCH) spi_state-machine
 always @(posedge clk or negedge rst_n)
   if (~rst_n)
       begin	    
         spi_state <= `SPI_IDLE;
-        tempc_bin_latch <= 8'b0;
+        tempC_bin_latch <= 8'b0;
         ext_lsb_ctrl <= 0;
       end
   else if ((count >= `CS_LOW_COUNT) && (count < `CS_HIGH_COUNT) )
@@ -159,7 +166,7 @@ always @(posedge clk or negedge rst_n)
   else if (count == `SPI_LATCH_COUNT)
       begin	    
         spi_state <= `SPI_LATCH;
-        tempc_bin_latch <= shift_reg<<1;
+        tempC_bin_latch <= shift_reg<<1;
         ext_lsb_ctrl <= ~ext_lsb_ctrl ;
       end
   else 
