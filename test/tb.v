@@ -59,8 +59,8 @@ module tb ();
   initial ena <= 1;
   initial begin
     #5 
-    ui_in[0] = 1;
-    ui_in[1] = 1;
+    ui_in[0] = 1;	//0-> onboard disp. 1-> external display
+    ui_in[1] = 1;	//if ui_in[0]=0;  0-> MSB, 1-> LSB 
   end
 
   //Task for simple test
@@ -89,14 +89,16 @@ module tb ();
     begin
       //$monitor("time= %0t;data[]=,CS=%b,CLK=%b,SIO=%b,",$time,CS,CLK,SIO);
       testRead;
-      #1500
+      #4500
       $finish(2);
     end
 endmodule
 //////////////////////////////TEMP SENSOR LM70 DUMMY MODEL/////////////////
 //Define
+// In this design we only read the 8-MSBs 
+// which has a resolution of 2-deg C 
 //`define TEMP_SET  16'h0B9F //22 degree celcius
-`define TEMP_SET  16'h191F
+`define TEMP_SET  16'h191F   //50 C
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
 //
