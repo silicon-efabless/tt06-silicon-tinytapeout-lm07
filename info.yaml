@@ -1,10 +1,10 @@
 # Tiny Tapeout project information
 project:
   title:        "Display controller for temperature sensor LM07"      # Project title
-  author:       "Priyansu Sahoo"      # Your name
+  author:       "Priyansu Sahoo"      
   discord:      "sroutk"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "Reads from LM07 temperature sensor using SPI and displays on a 7-segment display"      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
+  description:  "Reads from LM70 temperature sensor using SPI and displays on a 7-segment display"
+  language:     "Verilog" 
   clock_hz:     10000       # 10kHz
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
@@ -22,7 +22,7 @@ pinout:
   # Inputs
   ui[0]: "DIP Switch-1: 0: use the demo board 7-segment, 1: use two external 7-seg displays"
   ui[1]: "DIP Switch-2: Used when u[0]=0.  0 -> LSB temp, 1 > MSB temp"
-  ui[2]: ""
+  ui[2]: "DIP Switch-3: 0-> Display in Centigrade, 1-> Display in Fahrenheit"
   ui[3]: ""
   ui[4]: ""
   ui[5]: ""
@@ -37,13 +37,13 @@ pinout:
   uo[4]: "E"
   uo[5]: "F"
   uo[6]: "G"
-  uo[7]: "LSB/MSB select when ui[0]=0"
+  uo[7]: "DP"
 
   # Bidirectional pins
   uio[0]: "CS (output)"
   uio[1]: "SCK (output)"
-  uio[2]: "Select_MSB (output)"
-  uio[3]: "Select_LSB (output)"
+  uio[2]: "Select_MSB (output) for external 7-seg display"
+  uio[3]: "Select_LSB (output) for external 7-seg display"
   uio[4]: "SIO (input)"
   uio[5]: ""
   uio[6]: ""
