@@ -1,10 +1,10 @@
 # Tiny Tapeout project information
 project:
   title:        "Display controller for temperature sensor LM07"      # Project title
-  author:       "Priyansu Sahoo"      
+  author:       "Priyansu Sahoo"   # Your Name   
   discord:      "sroutk"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "Reads from LM70 temperature sensor using SPI and displays on a 7-segment display"
-  language:     "Verilog" 
+  description:  "Reads from LM70 temperature sensor using SPI and displays on a 7-segment display"  # One line description
+  language:     "Verilog"   # other examples include SystemVerilog, Amaranth, VHDL, etc
   clock_hz:     10000       # 10kHz
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
