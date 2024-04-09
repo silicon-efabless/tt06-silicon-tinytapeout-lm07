@@ -59,8 +59,9 @@ module tb ();
   initial ena <= 1;
   initial begin
     #5 
-    ui_in[0] = 1;
-    ui_in[1] = 1;
+    ui_in[0] = 1;	//0-> onboard disp. 1-> external display
+    ui_in[1] = 0;	//if ui_in[0]=0;  0-> MSB, 1-> LSB 
+    ui_in[2] = 0; 	//0-> Output centigrade, 1-> Fahrenheit 
   end
 
   //Task for simple test
@@ -72,7 +73,8 @@ module tb ();
   
   wire SIO;
   //initial uio_in[4] <= SIO;
-  always @(*) begin uio_in[4] <= SIO; end
+  //initial cannot be used as it run only once
+  always @(*) begin uio_in[5] <= SIO; end
   
   //Instiate LM07
   LM07 tsense(.CS(CS), .SCK(SCK), .SIO(SIO));
@@ -89,14 +91,46 @@ module tb ();
     begin
       //$monitor("time= %0t;data[]=,CS=%b,CLK=%b,SIO=%b,",$time,CS,CLK,SIO);
       testRead;
-      #1500
+      #4500
       $finish(2);
     end
 endmodule
 //////////////////////////////TEMP SENSOR LM70 DUMMY MODEL/////////////////
 //Define
-//`define TEMP_SET  16'h0B9F //22 degree celcius
-`define TEMP_SET  16'h191F
+// In this design we only read the 8-MSBs 
+// which has a resolution of 2-deg C 
+//--------TEST POINTS-----------
+//                           Data given    Data we get in 7 seg in C 
+`define TEMP_SET  16'h0B9F      //22 C --> 22
+//`define TEMP_SET  16'h111F    //34 C --> 34
+//`define TEMP_SET  16'h191F    //50 C --> 49 
+//`define TEMP_SET  16'h241F    //72 C --> 69
+
+/***********************************************************/
+//-----ONLY DATA POINT THAT SYSTEM CANNOT HANDLE-----
+//`define TEMP_SET  16'h251F    //74 C --> 6C
+//`define TEMP_SET  16'h259F    //75 C --> 6C
+/* NOTE
+Our design cannot handle points data more than 74 
+because of our conversion algorithm error
+ex.
+say sensor sends data 74 
+bcd_msb = 74 * (1/16 + 1/32) = 74*0.09375 = 6.9375
+=> bcd_msb = 6
+bcd_lsb = 74 - 6*10 = 74 - 60 = 14 = E 
+now in bcd to seven segemnt decoder we have assigned the bcd data 
+e for displaying the celcius thats why result is coming 6C in the
+7 segment display
+*/
+//---------------------------------------------------
+/***********************************************************/
+
+//`define TEMP_SET  16'h011F    //2  C --> 02
+//`define TEMP_SET  16'h019F    //3  C --> 02 
+//`define TEMP_SET  16'h021F    //4  C --> 04
+//`define TEMP_SET  16'h039F    //7  C --> 06
+//`define TEMP_SET  16'h041F    //8  C --> 08
+//-------------------------------
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
 //
