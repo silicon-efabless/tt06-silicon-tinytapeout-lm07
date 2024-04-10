@@ -99,6 +99,7 @@ endmodule
 //Define
 // In this design we only read the 8-MSBs 
 // which has a resolution of 2-deg C 
+
 //--------TEST POINTS-----------
 //                           Data given    Data we get in 7 seg in C 
 `define TEMP_SET  16'h0B9F      //22 C --> 22
@@ -131,6 +132,7 @@ e for displaying the celcius thats why result is coming 6C in the
 //`define TEMP_SET  16'h039F    //7  C --> 06
 //`define TEMP_SET  16'h041F    //8  C --> 08
 //-------------------------------
+
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
 //

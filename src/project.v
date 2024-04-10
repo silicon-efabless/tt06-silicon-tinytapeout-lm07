@@ -11,10 +11,10 @@
 `define CS_HIGH_COUNT   5'd20
 `define SPI_LATCH_COUNT 5'd22
 `define MAX_COUNT       5'd28
+
 `define SPI_IDLE	    2'b00
 `define SPI_READ	    2'b01
 `define SPI_LATCH	    2'b10
-
 
 `define default_netname none
 
@@ -53,7 +53,7 @@ module tt_um_silicon_tinytapeout_lm07 (
   assign uo_out[6] = dataSeg[6];        //7-seg G
   assign uo_out[7] = dataSeg[7];        //7-seg DP
   
-  
+
     // SPI signals
   assign uio_out[0] = CS;              //CS-->chip select for LM70
   assign uio_out[1] = SCK;             //SCK--> clock for LM70
@@ -75,11 +75,13 @@ module tt_um_silicon_tinytapeout_lm07 (
   wire [7:0] tempCorF;
   reg [1:0] spi_state;
   reg [4:0] count;
+
   wire [3:0] bcd_msb;
   wire [3:0] bcd_lsb;
   wire [3:0] bcd_out;
   
   wire [2:0] sel_ext;       //sel_ext[1]-MSB/sel_ext[0]-LSB/sel_ext[2]=output port to slect 7 segemnt which will display temp unit
+
   wire sel_ext_seg;              
   // input signal for ui[0]-->ui[0]=1:use external 7 segment/=0:use demoboard 7 segment
   wire sel_ob_LSB;               
@@ -224,6 +226,7 @@ assign CS = ~(spi_state == `SPI_READ);
 
 // 3-spi_state (IDLE, READ, LATCH) spi_state-machine
   reg [1:0] dispState;
+
 always @(posedge clk or negedge rst_n)
   if (~rst_n)
       begin	    
