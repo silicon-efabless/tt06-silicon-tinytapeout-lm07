@@ -44,7 +44,7 @@ pinout:
   uio[1]: "SCK (out)"
   uio[2]: "Select 'C' or 'F' segment (out)"
   uio[3]: "Select LSB segment (out) "
-  uio[5]: "Select MSB segment (out) "
+  uio[4]: "Select MSB segment (out) "
   uio[5]: "SIO (input)"
   uio[6]: ""
   uio[7]: ""
