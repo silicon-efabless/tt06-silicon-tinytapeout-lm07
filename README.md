@@ -3,6 +3,7 @@
 # Resources
 - [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
 - [How to locally harden (rtl2gds) your design](https://docs.google.com/document/d/1aUUZ1jthRpg4QURIIyzlOaPWlmQzr-jBn3wZipVUPt4/edit#heading=h.wwc5ldl01nl5)
+- [A good reference for doc](https://github.com/scorbetta/tt06-scorbetta-goa/blob/main/docs/info.md)
 
 
 # Tiny Tapeout Verilog Project Template
