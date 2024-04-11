@@ -53,15 +53,15 @@ module tb ();
  
   assign CS = uio_out[0];
   assign SCK = uio_out[1];
-  assign disp[0] = uio_out[2];
-  assign disp[1] = uio_out[3];
-  assign disp[2] = uio_out[4];
+  assign disp[0] = uio_out[3];
+  assign disp[1] = uio_out[4];
+  assign disp[2] = uio_out[5];
   
   initial ena <= 1;
   initial begin
     #5 
     ui_in[0] = 1;	//0-> onboard disp. 1-> external display
-    ui_in[1] = 0;	//if ui_in[0]=0;  0-> MSB, 1-> LSB 
+    ui_in[1] = 1;	//if ui_in[0]=0;  0-> MSB, 1-> LSB 
     ui_in[2] = 0; 	//0-> Output centigrade, 1-> Fahrenheit 
   end
 
@@ -75,7 +75,7 @@ module tb ();
   wire SIO;
   //initial uio_in[4] <= SIO;
   //initial cannot be used as it run only once
-  always @(*) begin uio_in[5] <= SIO; end
+  always @(*) begin uio_in[2] <= SIO; end
   
   //Instiate LM07
   LM07 tsense(.CS(CS), .SCK(SCK), .SIO(SIO));
