@@ -49,12 +49,13 @@ module tb ();
 /***********************************************************************/
   wire SCK;
   wire CS;
-  wire [1:0] disp;
+  wire [2:0] disp;
  
-  assign SCK = uio_out[1];
   assign CS = uio_out[0];
-  assign disp[1] = uio_out[2];
-  assign disp[0] = uio_out[3];
+  assign SCK = uio_out[1];
+  assign disp[0] = uio_out[2];
+  assign disp[1] = uio_out[3];
+  assign disp[2] = uio_out[4];
   
   initial ena <= 1;
   initial begin
@@ -102,10 +103,11 @@ endmodule
 
 //--------TEST POINTS-----------
 //                           Data given    Data we get in 7 seg in C 
-`define TEMP_SET  16'h0B9F      //22 C --> 22
-//`define TEMP_SET  16'h111F    //34 C --> 34
-//`define TEMP_SET  16'h191F    //50 C --> 49 
-//`define TEMP_SET  16'h241F    //72 C --> 69
+//`define TEMP_SET  16'h0B9F      //22 C 
+//`define TEMP_SET  16'h111F    //34 C 
+//`define TEMP_SET  16'h191F    //50 C  
+//`define TEMP_SET  16'h241F    //72 C 
+`define TEMP_SET  16'h311F    //98 C 
 
 /***********************************************************/
 //-----ONLY DATA POINT THAT SYSTEM CANNOT HANDLE-----
