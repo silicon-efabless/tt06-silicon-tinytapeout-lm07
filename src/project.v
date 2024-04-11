@@ -161,7 +161,7 @@ module tt_um_silicon_tinytapeout_lm07 (
       4'b0101: dataSeg = 8'b01101101;	//5 0x6D
       4'b0110: dataSeg = 8'b01111101;	//6 0x7D
       4'b0111: dataSeg = 8'b00000111;	//7 0x07
-      4'b1000: dataSeg = {4'b0111,((dispState[0] && dispState[1]) ? 3'b000 : 2'b111),1'b1};	//8 0x7F
+	    4'b1000: dataSeg = {4'b0111,((dispState[0] && dispState[1]) ? 3'b000 : 3'b111),1'b1};	//8 0x7F
       4'b1001: dataSeg = 8'b01101111;	//9 0x6E
       4'b1010: dataSeg = 8'b01101111;	//9
       4'b1011: dataSeg = 8'b01101111;	//9
