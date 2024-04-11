@@ -38,7 +38,7 @@ module tt_um_silicon_tinytapeout_lm07 (
   //assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   // DOUBLE CHECK THIS. The enables may not be auto checked. 
   assign uio_oe  = 8'b00111011;
-  assign uio_out[7:6] = 3'b00;
+  assign uio_out[7:6] = 2'b00;
 //-------------------------------------------------------------------------------------
 
 //--------------Declaration of intenal signal to ports--------------
