@@ -49,13 +49,9 @@ module tb ();
 /***********************************************************************/
   wire SCK;
   wire CS;
-  wire [2:0] disp;
  
   assign CS = uio_out[0];
   assign SCK = uio_out[1];
-  assign disp[0] = uio_out[2];
-  assign disp[1] = uio_out[3];
-  assign disp[2] = uio_out[4];
   
   initial ena <= 0;
   initial begin
