@@ -11,7 +11,7 @@ You can also include images in this folder and reference them in the markdown. E
 
 ![Blcok Diagram](tt06-blockdiag.png) 
 
-This project reads the LM70 temperature sensor using Serial Peripheral Interface (SPI) protocol. The LM70 is a digital temperature sensor that uses an SPI bus for communication with other devices. The sensor can measure temperatures ranging from -55°C to 150°C with a resolution of ±0.25°C.
+This project reads the LM70 temperature sensor using Serial Peripheral Interface (SPI) protocol. The LM70 is a digital temperature sensor that uses an SPI bus for communication with other devices. The sensor can measure temperatures ranging from -55°C to 150°C with a resolution of ±0.25°C. For this project will only use the 8-bit out of the 11-bit resulting in $\pm 2^o C$. $y=x^2 + \frac{x}{y}$.
 This circuit reads the LM07 data in a binary format, converts into BCD and then to 7-segment display and displays it.
 
 ### Mode of Operation
