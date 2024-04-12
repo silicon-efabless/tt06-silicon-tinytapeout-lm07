@@ -7,7 +7,7 @@ You can also include images in this folder and reference them in the markdown. E
 512 kb in size, and the combined size of all images must be less than 1 MB.
 -->
 
-## Digital Temperature Monitor
+## How it Works
 
 ![Blcok Diagram](tt06-blockdiag.png) 
 
@@ -16,9 +16,8 @@ This circuit reads the LM07 data in a binary format, converts into BCD and then 
 
 ### Mode of Operation
 
-| DIP-1 | DIP-2 | DIP-3 | DESCRIPTION |
+| `ui_in[0]` | `ui_in[1]` | `ui_in[2]` | DESCRIPTION |
 |-|-|-|-|
-| `ui_in[0]` | `ui_in[1]` | `ui_in[2]` | |
 | `0` | `X` | `0` | External Display in deg-C |
 | `0` | `X` | `1` | External Display in deg-F |
 | `1` | `0` | `X` | MSB Onboard Display in deg-C |
