@@ -40,8 +40,11 @@ Since the demo PCB board has one 7-segment display, a provision in the design is
 
 ## How to test
 
-A LM07 is connected to the PMOD to interface it for SPI read (CS, CLK, MISO). A detail test plan is coming.
+This project is designed with testability in mind so it can be tested with barebone PCB without any external hardware. The table below suggests different test modes for testing or using the design.
 
+| TestNo. | Mode | uio_in[2] | Ext. H/W | RP2040 | 7-seg Ouput |
+|-|-|-|-|-|-|
+| 1 | 3 | `0` | None | clk~10kHz | `0` |
 ## External hardware
 
 Needs a LM07 interfaced on the PCB. Detail hardware plan coming soon.
