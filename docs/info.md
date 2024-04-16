@@ -45,6 +45,9 @@ This project is designed with testability in mind so it can be tested with bareb
 | TestNo. | Mode | uio_in[2] | Ext. H/W | RP2040 | 7-seg Ouput |
 |-|-|-|-|-|-|
 | 1 | 3 | `0` | None | clk~10kHz | `0` |
+| 2 | 4 | `0` | None | clk~10kHz | `0` |
+| 3 | 3 | `SIO` from RP2020 | None | clk~10kHz and SIO | MSB of data sent by RP2040 |
+
 ## External hardware
 
 Needs a LM07 interfaced on the PCB. Detail hardware plan coming soon.
