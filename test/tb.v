@@ -373,7 +373,6 @@ endmodule
 //Define
 // In this design we only read the 8-MSBs 
 // which has a resolution of 2-deg C 
-    
 ////////////////////////////////////////////////////////////////////////////
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
@@ -390,7 +389,7 @@ module LM07(TEMP_SET,CS, SCK, SIO);
   wire clk_gated;
   
   //Reset at startup
-  initial begin
+  initial beginn
     shift_reg = TEMP_SET; 
     //shift_reg = shift_reg>>1;
   end

@@ -39,7 +39,7 @@ module tt_um_silicon_tinytapeout_lm07 (
   // DOUBLE CHECK THIS. The enables may not be auto checked. 
   assign uio_oe  = 8'b00111011;
   assign uio_out[7:6] = 2'b00;
-  assign uio_out[2] = 1'b0;//NO NEED
+  assign uio_out[2] = 1'b0;
 //-------------------------------------------------------------------------------------
 
 //--------------Declaration of intenal signal to ports--------------
@@ -109,7 +109,6 @@ module tt_um_silicon_tinytapeout_lm07 (
       3'b001: lsb_sel = 1'b0;
       3'b010: lsb_sel = 1'b1;
       3'b011: lsb_sel = 1'b1;
-      
       3'b100: lsb_sel = 1'b0;
       3'b110: lsb_sel = 1'b0;
       3'b101: lsb_sel = 1'b1;
@@ -239,4 +238,3 @@ always @(posedge clk or negedge rst_n)
     else
        count <= count + 1'b1;
  endmodule
-

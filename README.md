@@ -3,17 +3,7 @@
 # Resources
 - [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
 - [How to locally harden (rtl2gds) your design](https://docs.google.com/document/d/1aUUZ1jthRpg4QURIIyzlOaPWlmQzr-jBn3wZipVUPt4/edit#heading=h.wwc5ldl01nl5)
-
-
-# Helpful Info
-- [Discord link clarifying I/O](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
-- ena pin is an option for user to use, not mandotary. [See doscord link](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
-- Don't need `wokiid`, just follow the `tt-06 template`
-- PCB clock speed (6Hz - 66MHz) [See clock specs here](https://tinytapeout.com/specs/clock/)
-- Shipping to India is fine.
-- Boards are tested for functionality before shipping.
-  
-# Tasks
+- [A good reference for doc](https://github.com/scorbetta/tt06-scorbetta-goa/blob/main/docs/info.md)
 
 
 # Tiny Tapeout Verilog Project Template
@@ -55,3 +45,14 @@ The GitHub action will automatically build the ASIC files using [OpenLane](https
   - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
   - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
   - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@matthewvenn](https://twitter.com/matthewvenn)
+
+# Helpful Info
+- [Discord link clarifying I/O](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
+- ena pin is an option for user to use, not mandotary. [See doscord link](https://discordapp.com/channels/1009193568256135208/1212524847708774460)
+- Don't need `wokiid`, just follow the `tt-06 template`
+- PCB clock speed (6Hz - 66MHz) [See clock specs here](https://tinytapeout.com/specs/clock/)
+- Shipping to India is fine.
+- Boards are tested for functionality before shipping.
+  
+# Tasks
+
