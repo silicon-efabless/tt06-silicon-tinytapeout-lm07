@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 /******************************************************************************/
 `default_nettype none
@@ -49,22 +49,268 @@ module tb ();
 /***********************************************************************/
   wire SCK;
   wire CS;
+  reg [15:0]TEMP_SET;
+  wire [2:0]sel_ext;
+  reg sw_ext,sw_lsb,sw_deg;
  
   assign CS = uio_out[0];
   assign SCK = uio_out[1];
+
+  assign sel_ext[0] = uio_out[3];      //C/F
+  assign sel_ext[1] = uio_out[4];      //LSB
+  assign sel_ext[2] = uio_out[5];      //MSB
+  
+  always@(*)
+    begin
+      ui_in[0] = sw_ext;
+      ui_in[1] = sw_lsb;
+      ui_in[2] = sw_deg;
+    end
   
   initial ena <= 0;
-  initial begin
-    #5 
-    ui_in[0] = 1;	//0-> onboard disp. 1-> external display
-    ui_in[1] = 0;	//if ui_in[0]=0;  0-> MSB, 1-> LSB 
-    ui_in[2] = 0; 	//0-> Output centigrade, 1-> Fahrenheit 
+ 
+  /***********Counter to keep it synchronized**************/
+  reg dummy_clk;
+  always @(*)
+    begin
+      dummy_clk <= CS & clk;
+    end
+  always @(posedge clk)
+    if(~CS) cnt<=0;
+  
+  integer cnt ;
+  always @(negedge rst_n or posedge dummy_clk)
+  begin
+    if(~rst_n) 
+      begin
+        cnt<=0;
+      end
+    else if(CS)
+      begin
+        cnt<=cnt+1;
+      end  
+    else cnt<=0;
+    
+    if(cnt==8)
+      begin
+        cnt<=0;
+        dummy_clk <= 0;
+      end
   end
-
+  /***************task : generateTempData*****************/
+  
+  //reg [11:0][6:0] dataRegisters;  
+  
+  //reg [11:0] test1 = 12'b1_0_0_9'd24;--> NOT WORKING
+  
+  //reg [11:0] test1 = 12'b1_0_0_00000_0000 + 9'd24;
+  
+  reg [11:0] test ;
+ 
+  reg [3:0]bcd_msb;
+  reg [3:0]bcd_lsb;
+  reg [8:0]number_f;
+  reg [3:0]bcd_msb_f;
+  reg [3:0]bcd_lsb_f;
+  reg [9:0]number;
+  
+  reg [2:0] reg_dataset = 0; 
+  
+ task generateTempData; 
+   reg [4:0] highBits  ;
+   reg [1:0] extraBits ;           //for 0.25 and 0.5 resolution
+  begin
+    //--MUX TO SET DATA--
+    case(reg_dataset)
+      3'b000:   test = {1'b1,1'b0,1'b0,9'd26};  //{Msb_select,Lsb_select, C/F_select, Temp_data} 
+      3'b001:   test = {1'b1,1'b0,1'b0,9'd72};
+      3'b010:   test = {1'b1,1'b0,1'b1,9'd32};
+      3'b011:   test = {1'b0,1'b0,1'b0,9'd32};
+      3'b100:   test = {1'b0,1'b0,1'b0,9'd32};
+      default : test = {1'b1,1'b0,1'b0,9'd02};
+    endcase
+    
+    extraBits = 2'b00;
+    highBits  = 5'b11111;
+    
+    sw_ext = test[11];
+    sw_lsb = test[10];
+    sw_deg = test[9];
+    
+    number = test[8:0];
+    
+    TEMP_SET = {number,extraBits,highBits};
+    bcd_msb = number/10;
+    bcd_lsb = number - bcd_msb*10;
+    number_f = number*2 + 32;
+    bcd_msb_f = number_f/10;
+    bcd_lsb_f = number_f - bcd_msb_f*10;
+    
+    // mux control signal
+    reg_dataset = reg_dataset+1;
+    if(reg_dataset==6)
+      reg_dataset = 0;      
+  end
+endtask
+//----------------------------------------------------------------------
+  /****************task_compare***************************/
+  task task_compare;
+    casez({sw_ext,sw_lsb,sw_deg})
+     
+      3'b000: begin     
+        if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
+          begin
+            $display("----ON BOARD MSB TEST CELCIUS----");
+            $display("DATA SENT : %d C",bcd_msb);
+            
+            if(bcdOutput[3:0] == bcd_msb) 
+              $display("RECEIVED DATA : %0d C (PASS)",bcdOutput[3:0]);
+            else 
+              $display("RECEIVED DATA : %0d C (FAIL)",bcdOutput[3:0]);
+          end
+      end
+        
+       3'b001: begin     
+         if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
+          begin
+            $display("----ON BOARD MSB TEST Farhenite----");
+            $display("DATA SENT : %d F",bcd_msb_f);
+            
+            if(bcdOutput[3:0] == bcd_msb) 
+              $display("RECEIVED DATA : %0d F (PASS)",bcdOutput[3:0]);  
+            else 
+              $display("RECEIVED DATA : %0d F (FAIL)",bcdOutput[3:0]);
+          end
+      end
+      
+      3'b010 : begin
+        if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
+          begin
+            $display("----ON BOARD LSB TEST CELCIUS----");
+            $display("DATA SENT : %d C",bcd_lsb);
+            
+            if(bcdOutput[3:0] == bcd_msb) 
+              $display("RECEIVED DATA : %0d C (PASS)",bcdOutput[3:0]);
+            else 
+              $display("RECEIVED DATA : %0d C (FAIL)",bcdOutput[3:0]);
+          end
+      end
+        
+        3'b011 : begin
+          if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
+          begin
+            $display("----ON BOARD LSB TEST Farhenite----");
+            $display("DATA SENT : %d F",bcd_lsb_f);
+            
+            if(bcdOutput[3:0] == bcd_lsb) 
+              $display("RECEIVED DATA : %0d F (PASS)",bcdOutput[3:0]);  
+            else 
+              $display("RECEIVED DATA : %0d F (FAIL)",bcdOutput[3:0]);
+          end
+      end
+    
+      3'b1?0 : begin
+        
+        $display("DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+        if(sel_ext[0] && ~bcdOutput[4]) begin
+          $display("TEMP UNIT : CELCIUS");
+          $display("----------------------");
+        end
+        
+        else if(sel_ext[1] && bcdOutput[4])
+          begin
+            $display("----EXTERNAL 7 SEGMENT DISPLAY TEST CELCIUS----");
+            if(bcdOutput[3:0] == bcd_lsb)
+              $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+            else
+              $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+          end
+        else if(sel_ext[2] && bcdOutput[4])
+          begin
+            if(bcdOutput[3:0] == bcd_msb)
+              $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+            else
+              $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+          end
+        else $display("TEST FAIL");
+      end
+        
+        3'b1?1 : begin
+          
+          $display("DATA SENT : %0d%0d C",bcd_msb_f,bcd_lsb_f);
+          
+        if(sel_ext[0] && ~bcdOutput[4])
+          begin
+            $display("TEMP UNIT : Farhenite");
+            $display("----------------------");
+          end
+        else if(sel_ext[1] && bcdOutput[4])
+          begin
+            $display("----EXTERNAL7 SEGMENT DISPLAY TEST FAHRENITE----");
+            if(bcdOutput[3:0] == bcd_lsb_f)
+              $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+            else
+              $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+          end
+        else if(sel_ext[2] && bcdOutput[4])
+          begin
+            if(bcdOutput[3:0] == bcd_msb_f)
+              $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+            else
+              $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+          end
+        else $display("TEST FAIL");
+        end
+        
+        default : $display("ERROR !!!");
+      endcase
+    endtask 
+  
+    
+  
+  /***********Always BLOCK for controlling the Task********/
+  always @(posedge CS or negedge CS)
+    begin
+     if(~CS)
+        begin
+          if(sw_ext && sel_ext[0]) generateTempData;
+          else if(bcdOutput == 5'b10001)  generateTempData;     
+          else if(~sw_ext) generateTempData; 
+        end
+    end
+  always @(posedge clk or negedge rst_n)
+    begin
+      if(CS)
+        if(cnt==5)
+          task_compare;
+    end
+      
+  /***********************************************************/
+          
+  
+  //////////////////////////////////////////////////////////////////
+  /*
+  NOTE:
+  This block cannot be put after task call as when task will be called
+  only task will be executed and here that task is doing reset on after 15
+  so the counter will be start at 20 if we will put this counter code after 
+  task call 
+  */
+       
+      
+  initial begin
+    
+    #10000
+    $finish(2);   
+  end
+  
+  //always @(cnt) test;
+  
+  
   //Task for simple test
   task testRead;
     begin
-        #15   rst_n = 1'b1;
+        #20   rst_n = 1'b1;
     end
   endtask
   
@@ -74,7 +320,7 @@ module tb ();
   always @(*) begin uio_in[2] <= SIO; end
   
   //Instiate LM07
-  LM07 tsense(.CS(CS), .SCK(SCK), .SIO(SIO));
+  LM07 tsense(.TEMP_SET(TEMP_SET),.CS(CS), .SCK(SCK), .SIO(SIO));
  
   //Initialize CS
   initial rst_n = 1'b0;
@@ -88,40 +334,54 @@ module tb ();
     begin
       //$monitor("time= %0t;data[]=,CS=%b,CLK=%b,SIO=%b,",$time,CS,CLK,SIO);
       testRead;
-      #4500
-      $finish(2);
     end
+//////////////////////////////////////////////////////////////////////////////
+   
+/////////Encoder TO CONTROL OPERATIONS/////////////
+
+//-------------------------------------------------
+  reg [4:0] bcdOutput = 5'b10001;
+   always @(uo_out)
+   begin
+    case(uo_out)
+      8'b00111111: bcdOutput = 5'b10000;
+      8'b00000110: bcdOutput = 5'b10001;           
+      8'b01011011: bcdOutput = 5'b10010;           
+      8'b01001111: bcdOutput = 5'b10011;           
+      8'b01100110: bcdOutput = 5'b10100;           
+      8'b01101101: bcdOutput = 5'b10101;           
+      8'b01111101: bcdOutput = 5'b10110;           
+      8'b00000111: bcdOutput = 5'b10111; 
+      8'b01111111: bcdOutput = 5'b11000; 
+      8'b01101111: bcdOutput = 5'b11001; 
+      8'b00111111: bcdOutput = 5'b11010; 
+      8'b00000110: bcdOutput = 5'b11011;
+      8'b01011011: bcdOutput = 5'b11100;
+      8'b01001111: bcdOutput = 5'b11101; 
+      8'b01100110: bcdOutput = 5'b11110; 
+      8'b01101101: bcdOutput = 5'b11111; 
+      
+      8'b00111001: bcdOutput = 5'b00000;
+      8'b01110001: bcdOutput = 5'b00001;
+   
+    endcase
+  end
+  
 endmodule
+
 //////////////////////////////TEMP SENSOR LM70 DUMMY MODEL/////////////////
 //Define
 // In this design we only read the 8-MSBs 
 // which has a resolution of 2-deg C 
-
-//--------TEST POINTS-----------
-//                           Data given    Data we get in 7 seg in C 
-//`define TEMP_SET  16'h0B9F    //22 C --> 22C 
-//`define TEMP_SET  16'h101F    //32 C --> 32C   
-//`define TEMP_SET  16'h111F    //34 C --> 34C
-//`define TEMP_SET  16'h191F    //50 C --> 50C
-//`define TEMP_SET  16'h241F    //72 C --> 72C
-//`define TEMP_SET  16'h311F    //98 C --> 98C
-
-//`define TEMP_SET  16'h251F    //74 C --> 74C
-//`define TEMP_SET  16'h259F    //75 C --> 74C
-
-//`define TEMP_SET  16'h011F    //2  C --> 02
-//`define          16'h019F    //3  C --> 02 
-//`define TEMP_SET  16'h021F    //4  C --> 04
-//`define TEMP_SET  16'h039F    //7  C --> 06
-`define TEMP_SET  16'h041F    //8  C --> 08
-//-------------------------------
-
+    
+////////////////////////////////////////////////////////////////////////////
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
 //
-module LM07(CS, SCK, SIO);
+module LM07(TEMP_SET,CS, SCK, SIO);
   output SIO;
   input SCK, CS;
+  input [15:0] TEMP_SET;
   //
   // lm07_reg represents the register that stores
   // temperature value after A2D conversion
@@ -131,7 +391,7 @@ module LM07(CS, SCK, SIO);
   
   //Reset at startup
   initial begin
-    shift_reg = `TEMP_SET; 
+    shift_reg = TEMP_SET; 
     //shift_reg = shift_reg>>1;
   end
   
@@ -146,7 +406,7 @@ module LM07(CS, SCK, SIO);
   // If high, reset
   always @(CS)
    begin
-     shift_reg = `TEMP_SET;
+     shift_reg = TEMP_SET;
      //shift_reg = shift_reg>>1;
    end
   
@@ -160,3 +420,5 @@ module LM07(CS, SCK, SIO);
     $monitor("data=%0b,dataseg=%0b,dataout=%0b",SIO,dataSeg,dbugout);
   end*/
 endmodule
+//////////////////////////////////////////////////////////////////////////////////
+    
