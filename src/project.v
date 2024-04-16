@@ -66,7 +66,7 @@ module tt_um_silicon_tinytapeout_lm07 (
   assign SIO = uio_in[2];              //SDI/MISO Data input
   assign uio_out[3] = sel_ext[0];      //C/F
   assign uio_out[4] = sel_ext[1];      //LSB
-  assign uio_out[5] = sel_ext[2];      //MSC
+  assign uio_out[5] = sel_ext[2];      //MSB
 
   wire SIO;
   wire CS;
