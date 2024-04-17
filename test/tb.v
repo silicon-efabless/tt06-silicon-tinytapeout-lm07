@@ -389,7 +389,7 @@ module LM07(TEMP_SET,CS, SCK, SIO);
   wire clk_gated;
   
   //Reset at startup
-  initial beginn
+  initial begin
     shift_reg = TEMP_SET; 
     //shift_reg = shift_reg>>1;
   end
