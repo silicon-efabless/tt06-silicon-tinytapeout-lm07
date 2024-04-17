@@ -15,7 +15,7 @@ This project implements a digital temperature monitor by connecting a temperatur
 
 ## Acknowledgement 
 
-We extend our heartfelt gratitude to [Prinyasu Sahoo](https://github.com/Priyansu122) for his pivotal role in transforming this student project into a [Tiny Tapeout](https://tinytapeout.com/) masterpiece. Our sincere thanks also go to [Silicon University](https://www.silicon.ac.in) for their generous financial backing and the provision of crucial infrastructure support. Lastly, we express our profound appreciation to the dedicated students who, over the years, have tirelessly contributed to this project, propelling it to its current tapeout state
+Thanks to [Prinyasu Sahoo](https://github.com/Priyansu122) for the [Tiny Tapeout](https://tinytapeout.com/) conversion of this project, [Silicon University](https://www.silicon.ac.in) for financial and infrastructure support, and previous students for their efforts to bring this project to a tapeout state.
 
 # What is Tiny Tapeout?
 
