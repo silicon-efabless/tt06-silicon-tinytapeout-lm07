@@ -1,20 +1,28 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg)
 
-# Resources
-- [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
-- [How to locally harden (rtl2gds) your design](https://docs.google.com/document/d/1aUUZ1jthRpg4QURIIyzlOaPWlmQzr-jBn3wZipVUPt4/edit#heading=h.wwc5ldl01nl5)
-- [A good reference for doc](https://github.com/scorbetta/tt06-scorbetta-goa/blob/main/docs/info.md)
+# Tiny Tapeout Verilog Project: Digital Temperature Monitor
 
+This is an educational project for undergraduate engineering students with the objective of exposing them to real-world product design. In the process, the students learn a wide variety of engineering principles including product design, digital system design, mixed-signal modeling, digital design using Verilog, design verification, ASIC design flow, FPGA design flow, and documentation using gitHub.
 
-# Tiny Tapeout Verilog Project Template
+This project implements a digital temperature monitor by connecting a temperature sensor ([LM70](docs/datasheet-LM70-TI-tempSensor.pdf) [`docs/datasheet-LM70-TI-tempSensor.pdf`]) and a three-segment display to measure and display a range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
+
+![Block diagram of the complete system.](docs/tt06-blockdiag.png)
+
+## Project Description
 
 - [Read the documentation for project](docs/info.md)
 
-## What is Tiny Tapeout?
+
+## Acknowledgement 
+
+We extend our heartfelt gratitude to [Prinyasu Sahoo](https://github.com/Priyansu122) for his pivotal role in transforming this student project into a [Tiny Tapeout](https://tinytapeout.com/) masterpiece. Our sincere thanks also go to [Silicon University](https://www.silicon.ac.in) for their generous financial backing and the provision of crucial infrastructure support. Lastly, we express our profound appreciation to the dedicated students who, over the years, have tirelessly contributed to this project, propelling it to its current tapeout state
+
+# What is Tiny Tapeout?
 
 TinyTapeout is an educational project that aims to make it easier and cheaper than ever to get your digital designs manufactured on a real chip.
 
 To learn more and get started, visit https://tinytapeout.com.
+
 
 ## Verilog Projects
 
@@ -53,6 +61,11 @@ The GitHub action will automatically build the ASIC files using [OpenLane](https
 - PCB clock speed (6Hz - 66MHz) [See clock specs here](https://tinytapeout.com/specs/clock/)
 - Shipping to India is fine.
 - Boards are tested for functionality before shipping.
-  
+
+# Resources
+- [Payment App](https://app.tinytapeout.com/prepurchase) [ [Discord Ref](https://discordapp.com/channels/1009193568256135208/1009193568256135211/1222255345230151841) ]
+- [How to locally harden (rtl2gds) your design](https://docs.google.com/document/d/1aUUZ1jthRpg4QURIIyzlOaPWlmQzr-jBn3wZipVUPt4/edit#heading=h.wwc5ldl01nl5)
+- [A good reference for doc](https://github.com/scorbetta/tt06-scorbetta-goa/blob/main/docs/info.md)
+
 # Tasks
 
