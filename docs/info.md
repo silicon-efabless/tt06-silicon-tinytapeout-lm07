@@ -40,14 +40,19 @@ Since the demo PCB board has one 7-segment display, a provision in the design is
 
 ## How to test
 
-This project is designed with testability in mind so it can be tested with barebone PCB without any external hardware. The table below suggests different test modes for testing or using the design.
+This project is designed with testability in mind so it can be tested with barebone PCB without any external hardware. The table below suggests different test modes for testing the design without any external hardware.
 
 | TestNo. | Mode | uio_in[2] | Ext. H/W | RP2040 | 7-seg Ouput |
 |-|-|-|-|-|-|
 | 1 | 3 | `0` | None | clk~10kHz | `0` |
 | 2 | 4 | `0` | None | clk~10kHz | `0` |
-| 3 | 3 | `SIO` from RP2020 | None | clk~10kHz and SIO | MSB of data sent by RP2040 |
+| 3 | 3 | `SIO` from RP2040 | None | clk~10kHz and SIO | MSB of data sent by RP2040 |
+| 4 | 4 | `SIO` from RP2040 | None | clk~10kHz and SIO | LSB of data sent by RP2040 |
+
+For the first two tests, the `uio_in[2]` port is grounded and a clock frequency of approximately 10 kHz is provided to the design from the RP2040 as shown in Figure 1. And when the inputs (`ui_in[2:0]`) are configure in Mode `3` or `4`, the single 7-segment display should display `0` in both modes.
+
+Test 3 and 4 in the table above will use the RP2040 as a SPI peripheral and micro-python code will be written to emulate the temperature sensor LM70. This will allow us to test the entire design without connecting the external temperature sensor or display.
 
 ## External hardware
 
-Needs a LM07 interfaced on the PCB. Detail hardware plan coming soon.
+Needs a LM07 interfaced on the PCB. Detail hardware plan will be updated when we get close to receiveing the PCB.
