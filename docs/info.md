@@ -13,7 +13,7 @@ This is an educational project for undergraduate engineering students with the o
 
 ## Project Brief
 
-This project implements a digital temperature monitor by connecting a temperature sensor (LM70) and a three-segment display to measure and display a range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
+This project implements a digital temperature monitor by connecting a temperature sensor ([LM70](datasheet-LM70-TI-tempSensor.pdf) [`docs/datasheet-LM70-TI-tempSensor.pdf`]) and a three-segment display to measure and display a range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
 
 ## How it Works
 
