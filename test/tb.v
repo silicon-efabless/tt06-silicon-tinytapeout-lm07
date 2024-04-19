@@ -70,33 +70,18 @@ module tb ();
   initial ena <= 0;
  
   /***********Counter to keep it synchronized**************/
-  reg dummy_clk;
-  always @(*)
-    begin
-      dummy_clk <= CS & clk;
-    end
-  always @(posedge clk)
-    if(~CS) cnt<=0;
   
-  integer cnt ;
-  always @(negedge rst_n or posedge dummy_clk)
-  begin
-    if(~rst_n) 
-      begin
-        cnt<=0;
-      end
-    else if(CS)
-      begin
-        cnt<=cnt+1;
-      end  
-    else cnt<=0;
+  integer cnt;
+  
+  always @(posedge clk or negedge rst_n)
+    begin
+      if(~rst_n) cnt<=0;
+      else if(~CS) cnt<=0;
+      else if(cnt==6) cnt<=6;
+      else if(CS && cnt<6) cnt<=cnt+1;
+    end
+  
     
-    if(cnt==8)
-      begin
-        cnt<=0;
-        dummy_clk <= 0;
-      end
-  end
   /***************task : generateTempData*****************/
   
   //reg [11:0][6:0] dataRegisters;  
@@ -125,8 +110,9 @@ module tb ();
       3'b000:   test = {1'b1,1'b0,1'b0,9'd26};  //{Msb_select,Lsb_select, C/F_select, Temp_data} 
       3'b001:   test = {1'b1,1'b0,1'b0,9'd72};
       3'b010:   test = {1'b1,1'b0,1'b1,9'd32};
-      3'b011:   test = {1'b0,1'b0,1'b0,9'd32};
-      3'b100:   test = {1'b0,1'b0,1'b0,9'd32};
+      3'b011:   test = {1'b0,1'b0,1'b0,9'd35};
+      3'b100:   test = {1'b0,1'b1,1'b0,9'd34};
+      
       default : test = {1'b1,1'b0,1'b0,9'd02};
     endcase
     
@@ -148,141 +134,174 @@ module tb ();
     
     // mux control signal
     reg_dataset = reg_dataset+1;
-    if(reg_dataset==6)
+    if(reg_dataset==5)
       reg_dataset = 0;      
   end
 endtask
 //----------------------------------------------------------------------
   /****************task_compare***************************/
   task task_compare;
+    
     casez({sw_ext,sw_lsb,sw_deg})
      
       3'b000: begin     
         if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
           begin
-            $display("----ON BOARD MSB TEST CELCIUS----");
-            $display("DATA SENT : %d C",bcd_msb);
+            $display("ON BOARD MSB TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
             
             if(bcdOutput[3:0] == bcd_msb) 
-              $display("RECEIVED DATA : %0d C (PASS)",bcdOutput[3:0]);
+              $display("RECEIVED MSB : %0d C (PASS)",bcdOutput[3:0]);
             else 
-              $display("RECEIVED DATA : %0d C (FAIL)",bcdOutput[3:0]);
+              $display("RECEIVED MSB : %0d C (FAIL)",bcdOutput[3:0]);
           end
       end
         
        3'b001: begin     
          if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
           begin
-            $display("----ON BOARD MSB TEST Farhenite----");
-            $display("DATA SENT : %d F",bcd_msb_f);
+            $display("ON BOARD MSB TEST : DATA SENT : %0d%0d F",bcd_msb_f,bcd_lsb_f);
             
-            if(bcdOutput[3:0] == bcd_msb) 
-              $display("RECEIVED DATA : %0d F (PASS)",bcdOutput[3:0]);  
+            if(bcdOutput[3:0] == bcd_msb_f) 
+              $display("RECEIVED MSB : %0d F (PASS)",bcdOutput[3:0]);  
             else 
-              $display("RECEIVED DATA : %0d F (FAIL)",bcdOutput[3:0]);
+              $display("RECEIVED MSB : %0d F (FAIL)",bcdOutput[3:0]);
           end
       end
       
       3'b010 : begin
         if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
           begin
-            $display("----ON BOARD LSB TEST CELCIUS----");
-            $display("DATA SENT : %d C",bcd_lsb);
+            $display("ON BOARD LSB TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
             
-            if(bcdOutput[3:0] == bcd_msb) 
-              $display("RECEIVED DATA : %0d C (PASS)",bcdOutput[3:0]);
+            if(bcdOutput[3:0] == bcd_lsb) 
+              $display("RECEIVED LSB : %0d C (PASS)",bcdOutput[3:0]);
             else 
-              $display("RECEIVED DATA : %0d C (FAIL)",bcdOutput[3:0]);
+              $display("RECEIVED LSB : %0d C (FAIL)",bcdOutput[3:0]);
           end
       end
         
         3'b011 : begin
           if(~sel_ext[0] && ~sel_ext[1] && ~sel_ext[2])
           begin
-            $display("----ON BOARD LSB TEST Farhenite----");
-            $display("DATA SENT : %d F",bcd_lsb_f);
+            $display("ON BOARD LSB TEST : DATA SENT : %0d%0d F",bcd_msb_f,bcd_lsb_f);
             
-            if(bcdOutput[3:0] == bcd_lsb) 
-              $display("RECEIVED DATA : %0d F (PASS)",bcdOutput[3:0]);  
+            if(bcdOutput[3:0] == bcd_lsb_f) 
+              $display("RECEIVED LSB : %0d F (PASS)",bcdOutput[3:0]);  
             else 
-              $display("RECEIVED DATA : %0d F (FAIL)",bcdOutput[3:0]);
+              $display("RECEIVED LSB : %0d F (FAIL)",bcdOutput[3:0]);
           end
       end
     
       3'b1?0 : begin
         
-        $display("DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+        
         if(sel_ext[0] && ~bcdOutput[4]) begin
-          $display("TEMP UNIT : CELCIUS");
-          $display("----------------------");
+          $display("EXT 7 SEG TEST : TEMP UNIT : CELCIUS");
         end
         
         else if(sel_ext[1] && bcdOutput[4])
           begin
-            $display("----EXTERNAL 7 SEGMENT DISPLAY TEST CELCIUS----");
             if(bcdOutput[3:0] == bcd_lsb)
-              $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+                $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+              end
             else
-              $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+                $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+              end
           end
         else if(sel_ext[2] && bcdOutput[4])
           begin
             if(bcdOutput[3:0] == bcd_msb)
-              $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+                $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+              end
             else
-              $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d C",bcd_msb,bcd_lsb);
+                $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+              end
           end
         else $display("TEST FAIL");
       end
         
         3'b1?1 : begin
           
-          $display("DATA SENT : %0d%0d C",bcd_msb_f,bcd_lsb_f);
-          
-        if(sel_ext[0] && ~bcdOutput[4])
-          begin
-            $display("TEMP UNIT : Farhenite");
-            $display("----------------------");
-          end
+         if(sel_ext[0] && ~bcdOutput[4]) begin
+           $display("EXT 7 SEG TEST : TEMP UNIT : Farhenite");
+        end
+        
         else if(sel_ext[1] && bcdOutput[4])
           begin
-            $display("----EXTERNAL7 SEGMENT DISPLAY TEST FAHRENITE----");
             if(bcdOutput[3:0] == bcd_lsb_f)
-              $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d F",bcd_msb_f,bcd_lsb_f);
+                $display("RECEIVED LSB %0d (PASS)",bcdOutput[3:0]);
+              end
             else
-              $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d F",bcd_msb,bcd_lsb);
+                $display("RECEIVED LSB %0d (FAIL)",bcdOutput[3:0]);
+              end
           end
         else if(sel_ext[2] && bcdOutput[4])
           begin
             if(bcdOutput[3:0] == bcd_msb_f)
-              $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d F",bcd_msb_f,bcd_lsb_f);
+                $display("RECEIVED MSB %0d (PASS)",bcdOutput[3:0]);
+              end
             else
-              $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+              begin
+                $display("EXT 7 SEG TEST : DATA SENT : %0d%0d F",bcd_msb_f,bcd_lsb_f);
+                $display("RECEIVED MSB %0d (FAIL)",bcdOutput[3:0]);
+              end
           end
-        else $display("TEST FAIL");
+          else $display("TEST FAIL");
         end
         
         default : $display("ERROR !!!");
+      
       endcase
+    
     endtask 
   
     
   
   /***********Always BLOCK for controlling the Task********/
-  always @(posedge CS or negedge CS)
+  integer cnt_cs = 1'b0;
+  
+  always @(negedge CS)
     begin
      if(~CS)
         begin
-          if(sw_ext && sel_ext[0]) generateTempData;
-          else if(bcdOutput == 5'b10001)  generateTempData;     
+          if(sw_ext)
+            begin
+              cnt_cs <= cnt_cs+1;
+              if(cnt_cs==2)
+                begin
+                  generateTempData;
+                  cnt_cs <=0;
+                end
+            end
+          
+          else if(bcdOutput == 5'b10001)
+            generateTempData;     
           else if(~sw_ext) generateTempData; 
         end
     end
+  
+  
   always @(posedge clk or negedge rst_n)
     begin
       if(CS)
-        if(cnt==5)
-          task_compare;
+        if(cnt==4)
+          begin
+            task_compare;
+          end
     end
       
   /***********************************************************/
@@ -300,7 +319,7 @@ endtask
       
   initial begin
     
-    #10000
+    #15000
     $finish(2);   
   end
   
@@ -373,6 +392,7 @@ endmodule
 //Define
 // In this design we only read the 8-MSBs 
 // which has a resolution of 2-deg C 
+    
 ////////////////////////////////////////////////////////////////////////////
 // Verilog model for the SPI-based temperature 
 // sensor LM07 or it's equivalent family.
