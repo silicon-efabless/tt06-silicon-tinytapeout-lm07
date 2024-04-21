@@ -23,10 +23,12 @@ This project implements a digital temperature monitor by connecting a temperatur
 
 | MODE | `ui_in[0]` | `ui_in[1]` | `ui_in[2]` | DESCRIPTION |
 |-|-|-|-|-|
-| 1 | `0` | `X` | `0` | External Display in deg-C |
-| 2 | `0` | `X` | `1` | External Display in deg-F |
-| 3 | `1` | `0` | `X` | MSB Onboard Display in deg-C |
-| 4 | `1` | `1` | `X` | LSB Onboard Display in deg-C |
+| 1 | `1` | `X` | `0` | External Display in deg-C |
+| 2 | `1` | `X` | `1` | External Display in deg-F |
+| 3 | `0` | `0` | `0` | MSB Onboard Display in deg-C |
+| 4 | `0` | `1` | `0` | LSB Onboard Display in deg-C |
+| 5 | `0` | `0` | `1` | MSB Onboard Display in deg-F |
+| 6 | `0` | `1` | `1` | LSB Onboard Display in deg-F |
 
 Figure 1 shows the general block diagram of the complete system. The temperature sensor (Texas Instrument LM70) has a dynamic range of 11 bits with a resolution of $\pm 0.25^\circ C$. In this project, we will only use MSB 8 bits with a resolution of $\pm 2^\circ C$. As shown in the timing diagram in the top right corner of the Figure 1, the LM 70 is configured as an SPI _peripheral_, with communication initiated by choosing the chip (CS) low. While CS is low, the data is clocked out of the sensor every _negative edge_ of the SPI clock (SCK) and the design reads those data at the following _positive edge_. The design provides eight SCK clock pulses, and then the CS is pulled high to stop the communication.
 
