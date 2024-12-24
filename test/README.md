@@ -1,3 +1,8 @@
+# Testing with the TinyTapeout Demo Board
+
+- [Getting Started with Demo Board](https://tinytapeout.com/guides/get-started-demoboard/)
+- [Analog Testing with Analog Discovery-2](https://tinytapeout.com/guides/analog-discovery/)
+
 # Sample testbench for a Tiny Tapeout project
 
 This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
@@ -28,3 +33,4 @@ make GATES=yes
 ```sh
 gtkwave tb.vcd tb.gtkw
 ```
+
