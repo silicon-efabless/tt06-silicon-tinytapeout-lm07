@@ -2,6 +2,7 @@
 
 - [Getting Started with Demo Board](https://tinytapeout.com/guides/get-started-demoboard/)
 - [Analog Testing with Analog Discovery-2](https://tinytapeout.com/guides/analog-discovery/)
+- [Demo Video](https://youtube.com/shorts/WfNDrHECN1A)
 
 # Sample testbench for a Tiny Tapeout project
 
