@@ -1,16 +1,16 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg)
 
-# Tiny Tapeout Verilog Project: Digital Temperature Monitor
+# Project Abstract: Digital Temperature Monitor
 
-This is an educational project for undergraduate engineering students with the objective of exposing them to real-world product design. In the process, the students learn a wide variety of engineering principles including product design, digital system design, mixed-signal modeling, digital design using Verilog, design verification, ASIC design flow, FPGA design flow, and documentation using gitHub.
+This project immerses undergraduate students in ASIC design by having them develop an architecture to read temperature sensor data via SPI and display it on a 7-segment display. Using the TinyTapeout platform for low-cost fabrication with the Skywater 130nm CMOS process, students gain experience in ASIC design in the context of electronic system design. A low gate count (209 std cells) design that displays temperature in the range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
 
-This project implements a digital temperature monitor by connecting a temperature sensor ([LM70](docs/datasheet-LM70-TI-tempSensor.pdf) [`docs/datasheet-LM70-TI-tempSensor.pdf`]) and a three-segment display to measure and display a range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
+# Project Description
 
 ![Block diagram of the complete system.](docs/tt06-blockdiag.png)
 
-## Project Description
-
 - [Read the documentation for project](docs/info.md)
+
+This project offers a straightforward, yet highly effective approach to immersing undergraduate students in ASIC design within the broader context of electronic system design. Initially, students examine the datasheet of the temperature sensor ([LM70](docs/datasheet-LM70-TI-tempSensor.pdf) ) to grasp essential electrical features such as Vdd, resolution, accuracy, and the SPI communication timing diagram. Students proceed to develop an architecture that reads temperature data via the SPI protocol and displays it on a 7-segment display. To give students a comprehensive tapeout experience, the TinyTapeout (TT) platform (https://tinytapeout.com) was selected, offering a budget-friendly option to fabricate designs using the Skywater 130nm CMOS process. The TT platform offers a minimum tile size of 100um x 160um with 8 input, 8 output, and 8 bidirectional ports. This setting provides students with hands-on experience in electronic system design, requiring them to manage input and output peripherals within specified constraints. Throughout this project, students encounter numerous digital design concepts such as finite-state machines (FSM), employing fixed-point arithmetic to optimize accuracy against hardware resources, using SPI for synchronous serial communication, BCD to-7-segment decoders, and multiplexing multiple displays to reduce the number of output ports. In addition, test modes are introduced to simulate real-world product design scenarios. The entire RTL-to-GDS process was executed using open source tools, including Icarus-Verilog and gtkwave for RTL simulation and verification, and OpenLane flow for the back-end, incorporating Yosys for synthesis, OpenSTA for Static Timing Analysis, Magic, and KLayout for physical verification. The TinyTapeout platform further supports learning through a demo board featuring an RP2040 microcontroller, enabling students to automate testing routines with micro-Python, an established industry method in testing and characterization.
 
 
 ## Acknowledgement 
