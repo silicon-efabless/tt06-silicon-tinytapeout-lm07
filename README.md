@@ -2,9 +2,16 @@
 
 # Digital Temperature Monitor in Skywater 130nm CMOS
 
-![Block diagram of the complete system.](docs/test-banner.png)
+## Test Setup
 
 - [Demo Video showing a quick functional test after receiving the board](https://youtube.com/shorts/WfNDrHECN1A)
+
+![Block diagram of the complete system.](docs/test-banner.png)
+
+## Layout and GDS Render
+
+![Layout](docs/layout-banner.png)
+
 
 # Project Abstract: Digital Temperature Monitor
 
