@@ -1,7 +1,10 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg)
 
-[Submit by 5 Jan 2025](https://forms.gle/zvqgZ66JEkNZJ48i6)
+# Digital Temperature Monitor in Skywater 130nm CMOS
 
+![Block diagram of the complete system.](docs/test-banner.png)
+
+- [Demo Video showing a quick functional test after receiving the board](https://youtube.com/shorts/WfNDrHECN1A)
 
 # Project Abstract: Digital Temperature Monitor
 
