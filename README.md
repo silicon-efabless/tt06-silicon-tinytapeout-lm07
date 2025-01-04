@@ -2,6 +2,7 @@
 
 [Submit by 5 Jan 2025](https://forms.gle/zvqgZ66JEkNZJ48i6)
 
+
 # Project Abstract: Digital Temperature Monitor
 
 This project immerses undergraduate students in ASIC design by having them develop an architecture to read temperature sensor data via SPI and display it on a 7-segment display. Using the TinyTapeout platform for low-cost fabrication with the Skywater 130nm CMOS process, students gain experience in ASIC design in the context of electronic system design. A low gate count (209 std cells) design that displays temperature in the range of $0-99^\circ C$ or $0-99^\circ F$ with an accuracy of $\pm 2^\circ C$.
