@@ -21,7 +21,6 @@ This project immerses undergraduate students in ASIC design by having them devel
 
 ![Block diagram of the complete system.](docs/tt06-blockdiag.png)
 
-- [Read the documentation for project](docs/info.md)
 
 This project offers a straightforward, yet highly effective approach to immersing undergraduate students in ASIC design within the broader context of electronic system design. 
 
