@@ -1,10 +1,20 @@
 # Testing with the TinyTapeout Demo Board
 
+## Test Resources
+
 - [Getting Started with Demo Board](https://tinytapeout.com/guides/get-started-demoboard/)
 - [Analog Testing with Analog Discovery-2](https://tinytapeout.com/guides/analog-discovery/)
 - [Demo Video](https://youtube.com/shorts/WfNDrHECN1A)
 
-# Sample testbench for a Tiny Tapeout project
+## Qucik Start Guide
+
+Instruction below are a quick start guide to getting started. Detail instruction can be found in the [Getting Started with Demo Board](https://tinytapeout.com/guides/get-started-demoboard/) guide at TinyTapeout.
+
+- Connect the temperature sensor to the Demo Board using the BDIR (middle) PMOD:
+  - `BDIR0 (top right) -> CS`, `BDIR1 -> SCK`, `BDIR2 -> SDO`, `3.3V (Left) -> Power`, and `GND (Left+1) -> Gnd`
+  - [Pinout Overview of the Demo Booard](docs)
+
+# Design Verification (TBD) 
 
 This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
 
