@@ -18,7 +18,15 @@ Instruction below are a quick start guide to getting started. Detail instruction
 - Using your browser connect to the [Commander App](https://commander.tinytapeout.com/)
 - Connect the board via USB-C and click `CONNECT TO BOARD`
 - If the board is connected properly, a pop-up should pop and select the apprpriate device and `Connect`
-- 
+- If all goes well, the Commander App Window should pop up
+
+![Commander App Window](/docs/commander-connected-cropped.png)
+
+- Click the project drop-down and find the project you want. You can start typing the name of the project and it should automatically start matching the right one.
+- If your required clock speed was entered in the project YAML file, it should automatically fill up else you can maually enter it.
+- Then click `SELECT` to make the changes to the demo board and you should see the MSB of the temperature on the 7-seg display.
+- Select the second DIP switch to display the LSB.
+- Select the third DIP switch to display the temperature in Farenheit.
 
 # Design Verification (TBD) 
 
