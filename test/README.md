@@ -12,7 +12,13 @@ Instruction below are a quick start guide to getting started. Detail instruction
 
 - Connect the temperature sensor to the Demo Board using the BDIR (middle) PMOD:
   - `BDIR0 (top right) -> CS`, `BDIR1 -> SCK`, `BDIR2 -> SDO`, `3.3V (Left) -> Power`, and `GND (Left+1) -> Gnd`
-  - [Pinout Overview of the Demo Booard](docs)
+  - [Pinout Overview of the Demo Booard](/docs/tt08-demoboard-pinout.jpg)
+  - [Schematic of the Demo Board](/docs/tt08-schematic-preview.jpg) [[PDF](/docs/demoboard-v2-1-2.pdf)]
+  - You can find everything about the demoboard on this [GitHub Page](https://github.com/TinyTapeout/tt-demo-pcb)
+- Using your browser connect to the [Commander App](https://commander.tinytapeout.com/)
+- Connect the board via USB-C and click `CONNECT TO BOARD`
+- If the board is connected properly, a pop-up should pop and select the apprpriate device and `Connect`
+- 
 
 # Design Verification (TBD) 
 
