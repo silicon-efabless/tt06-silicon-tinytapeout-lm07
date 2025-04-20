@@ -10,7 +10,7 @@
 
 ## Layout, GDS Render and Images
 
-<p align="center">
+<p align="left">
   <img src="docs/layout-banner.png" alt="Layout, GDS, 3D Render" width="200"/>
   <img src="docs/tt06-dcap-image.jpg" alt="DCap Image" width="200"/>
   <img src="docs/tt06-uScope-image.jpg" alt="MicroScope Picture" width="200"/>
