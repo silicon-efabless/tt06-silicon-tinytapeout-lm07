@@ -8,7 +8,7 @@
 
 ![Block diagram of the complete system.](docs/test-banner.png)
 
-## Layout and GDS Render
+## Layout, GDS Render and Images
 
 ![Layout](docs/layout-banner.png)
 
