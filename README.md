@@ -10,7 +10,15 @@
 
 ## Layout, GDS Render and Images
 
-![Layout](docs/layout-banner.png)
+<p align="center">
+  <img src="docs/layout-banner.png" alt="Layout, GDS, 3D Render" width="200"/>
+  <img src="docs/tt06-dcap-image.jpg" alt="DCap Image" width="200"/>
+  <img src="docs/tt06-uScope-image.jpg" alt="MicroScope Picture" width="200"/>
+</p>
+
+- (left) Layout and 3D Render. (middle) Die picture from a Dcapped part. (right) Microscope picture of the die.
+- [Link to Interactive viewer](https://tinytapeout.github.io/tt06-chip-imaging/#url=data/tt06.json)
+- [Link to high-res images](https://siliconpr0n.org/archive/doku.php?id=tiny-tapeout:tiny-tapeout:tt06)
 
 
 # Project Abstract: Digital Temperature Monitor
